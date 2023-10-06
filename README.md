@@ -10,5 +10,6 @@ Para executar, é preciso instalar as seguintes dependências do projeto.
 - [Pygame](https://www.pygame.org/news)
 - [Gtts](https://pypi.org/project/gTTS/)
 - [Speech Recognition](https://pypi.org/project/SpeechRecognition/)
+- [PyAudio](https://pypi.org/project/PyAudio/)
 
 Em seguida execute o comando ```python main.py```
