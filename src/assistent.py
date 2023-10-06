@@ -1,6 +1,7 @@
 from events import *
 from events import Event
 import speech_recognition as sr
+import math
 
 from audio import Audio
 
@@ -47,8 +48,7 @@ class Assistent:
 
         self._audio.gen_sound(events)
 
-    def listen(self):
-        recognizer = sr.Recognizer()
+    def listen(self, recognizer):
 
         with sr.Microphone() as source:
             while(True):
@@ -69,5 +69,24 @@ class Assistent:
                         self._audio.gen_sound("Você disse: " + prompt, play_sound=True)
                 except sr.UnknownValueError:
                     self._audio.gen_sound("Não foi possível entender o áudio.", play_sound=True)
+                    break
                 except sr.RequestError as e:
                     self._audio.gen_sound("Erro na requisição para o serviço de reconhecimento de voz:" + str(e), play_sound=True)
+                    break
+    
+    def start(self):
+        with sr.Microphone() as source:
+            while(True):
+                recognizer = sr.Recognizer()
+                self._audio.gen_sound("Diga Iniciar para começar.", play_sound=True)
+                try:
+                    prompt = self._audio.get_audio_input(recognizer, source, listen_timeout=math.inf)
+                    if prompt.lower() == "iniciar":
+                        self.listen(recognizer)
+                        self._audio.gen_sound("Diga encerrar para finalizar o atendimento", play_sound=True)
+
+                    if prompt.lower() == "encerrar":
+                        break
+
+                except Exception as e:
+                    print (e)
